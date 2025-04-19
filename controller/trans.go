@@ -18,6 +18,10 @@ type ResponseBody struct {
 	Src string `json:"src"`
 	Dst string `json:"dst"`
 }
+type ResponseError struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+}
 
 /*
 curl --location --request GET 'http://127.0.0.1:8192/api/v1/GetTrans?src=hello'
@@ -29,7 +33,7 @@ func (ts TranslateController) GetSrc(ctx *gin.Context) {
 	dst, err := logic.Trans(src, proxy)
 	if err != nil {
 		log.Println(err)
-		ctx.String(500, "服务器出错")
+		ctx.JSON(500, ResponseError{Code: 500, Msg: err.Error()})
 		return
 	}
 	log.Printf("received src: %s, dst: %s", src, dst)
