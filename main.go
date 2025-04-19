@@ -27,8 +27,8 @@ func timeoutMiddleware() gin.HandlerFunc {
 	)
 }
 func init() {
-	util.SetLog("gin.log")
-	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+	util.SetLog("translate-server.log")
+	log.SetFlags( log.Ltime | log.Lshortfile)
 }
 func main() {
 	// gin服务
