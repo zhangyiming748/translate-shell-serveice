@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/zhangyiming748/translate-server/logic"
 	"log"
@@ -32,7 +31,10 @@ func (ts TranslateController) GetSrc(ctx *gin.Context) {
 		return
 	}
 	log.Printf("received src: %s, dst: %s", src, dst)
-	ctx.String(200, dst)
+	var rep ResponseBody
+	rep.Src = src
+	rep.Dst = dst
+	ctx.JSON(200, rep)
 }
 
 /*
@@ -45,15 +47,11 @@ curl --location --request POST 'http://127.0.0.1:8192/api/v1/PostTrans' \
 	}'
 */
 func (ts TranslateController) PostSrcWithProxy(ctx *gin.Context) {
-	fmt.Println("get")
 	var requestBody RequestBody
 	if err := ctx.BindJSON(&requestBody); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
-	} else {
-		fmt.Println(requestBody)
 	}
-	fmt.Println(requestBody.Src, requestBody.Proxy)
 	var rep ResponseBody
 	result, err := logic.Trans(requestBody.Src, requestBody.Proxy)
 	if err != nil {
