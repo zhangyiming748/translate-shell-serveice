@@ -3,7 +3,6 @@ module github.com/zhangyiming748/translate-server
 go 1.24.2
 
 require (
-	github.com/gin-contrib/timeout v1.0.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-sql-driver/mysql v1.9.2
 	github.com/stretchr/testify v1.9.0
