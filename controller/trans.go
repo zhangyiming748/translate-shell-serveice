@@ -21,8 +21,8 @@ type ResponseBody struct {
 }
 
 /*
-使用 GET 请求获取翻译结果:
-   curl --location --request GET 'http://127.0.0.1:8080/trans/get?src=hello'*/
+curl --location --request GET 'http://127.0.0.1:8192/api/v1/GetTrans?src=hello'
+*/
 func (ts TranslateController) GetSrc(ctx *gin.Context) {
 	src := ctx.Query("src")
 	dst,err:=logic.Trans(src, "")
@@ -31,15 +31,20 @@ func (ts TranslateController) GetSrc(ctx *gin.Context) {
 		ctx.String(500, "服务器出错")
 		return
 	}
-	ctx.String(200, fmt.Sprintf("dst is %s\n", dst))
+	log.Printf("received src: %s, dst: %s", src, dst)
+	ctx.String(200, dst)
 }
 
 
 
 /*
-使用 POST 请求并指定代理获取翻译结果:
-   curl -X POST -H "Content-Type: application/json" -d '{"src": "hello world", "proxy": "IP_ADDRESS:8889"}' http://localhost:8080/trans/post
- */
+curl --location --request POST 'http://127.0.0.1:8192/api/v1/PostTrans' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "src": "string",
+    "proxy": "string"
+}'
+*/
 func (ts TranslateController) PostSrcWithProxy(ctx *gin.Context) {
 	fmt.Println("get")
 	var requestBody RequestBody
@@ -58,5 +63,6 @@ func (ts TranslateController) PostSrcWithProxy(ctx *gin.Context) {
 	}
 	rep.Src = requestBody.Src
 	rep.Dst =result
+	log.Printf("received src: %s, dst: %s", rep.Src, rep.Dst)
 	ctx.JSON(200, rep)
 }

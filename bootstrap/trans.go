@@ -5,7 +5,7 @@ import (
 	"github.com/zhangyiming748/translate-server/controller"
 )
 
-func InitService1(engine *gin.Engine) {
+func InitTranslateService(engine *gin.Engine) {
 	routeGroup := engine.Group("/api")
 	{
 		c := new(controller.TranslateController)

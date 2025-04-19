@@ -3,8 +3,9 @@ package main
 import (
 	"github.com/gin-contrib/timeout"
 	"github.com/gin-gonic/gin"
-	"github.com/zhangyiming748/basicGin/bootstrap"
-	"github.com/zhangyiming748/basicGin/util"
+	"github.com/zhangyiming748/translate-server/bootstrap"
+	"github.com/zhangyiming748/translate-server/util"
+	mysql "github.com/zhangyiming748/translate-server/storage"
 	"log"
 	"net/http"
 	"time"
@@ -29,16 +30,16 @@ func timeoutMiddleware() gin.HandlerFunc {
 func init() {
 	util.SetLog("translate-server.log")
 	log.SetFlags( log.Ltime | log.Lshortfile)
+	// 初始化mysql
+	mysql.SetMysql()
 }
+
 func main() {
 	// gin服务
 	gin.SetMode(gin.DebugMode)
 	engine := gin.New()
 	engine.Use(timeoutMiddleware())
-	bootstrap.InitService1(engine)
-	bootstrap.InitFile(engine)
-	bootstrap.InitClipboard(engine)
-	bootstrap.InitTelegram(engine)
+	bootstrap.InitTranslateService(engine)
 	// 启动http服务
 	engine.Run(":8192")
 }
