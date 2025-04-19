@@ -1,8 +1,8 @@
 package model
 
 import (
-	"time"
 	"github.com/zhangyiming748/translate-server/storage"
+	"time"
 )
 
 type History struct {
@@ -12,13 +12,6 @@ type History struct {
 	CreatedAt time.Time `xorm:"created"`
 	UpdatedAt time.Time `xorm:"updated"`
 	DeletedAt time.Time `xorm:"deleted"`
-}
-
-
-func init() {
-	if mysql.UseMysql() {
-		mysql.GetMysql().Sync(History{})
-	}
 }
 
 /*
@@ -34,4 +27,3 @@ func (h *History) InsertOne() (int64, error) {
 func (h *History) FindBySrc() (bool, error) {
 	return mysql.GetMysql().Where("src = ?", h.Src).Get(h)
 }
-
