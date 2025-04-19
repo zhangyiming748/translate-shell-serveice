@@ -25,7 +25,8 @@ curl --location --request GET 'http://127.0.0.1:8192/api/v1/GetTrans?src=hello'
 func (ts TranslateController) GetSrc(ctx *gin.Context) {
 	log.Printf("received src: %s", ctx.Query("src"))
 	src := ctx.Query("src")
-	dst, err := logic.Trans(src, "")
+	proxy := ctx.Query("proxy")
+	dst, err := logic.Trans(src, proxy)
 	if err != nil {
 		log.Println(err)
 		ctx.String(500, "服务器出错")
