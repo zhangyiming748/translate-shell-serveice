@@ -4,8 +4,8 @@ import (
 	"github.com/gin-contrib/timeout"
 	"github.com/gin-gonic/gin"
 	"github.com/zhangyiming748/translate-server/bootstrap"
-	"github.com/zhangyiming748/translate-server/util"
 	mysql "github.com/zhangyiming748/translate-server/storage"
+	"github.com/zhangyiming748/translate-server/util"
 	"log"
 	"net/http"
 	"time"
@@ -29,7 +29,7 @@ func timeoutMiddleware() gin.HandlerFunc {
 }
 func init() {
 	util.SetLog("translate-server.log")
-	log.SetFlags( log.Ltime | log.Lshortfile)
+	log.SetFlags(log.Ltime | log.Lshortfile)
 	// 初始化mysql
 	mysql.SetMysql()
 }

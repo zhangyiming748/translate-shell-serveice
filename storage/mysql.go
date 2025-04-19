@@ -21,7 +21,7 @@ func SetMysql() {
 		user = "root"
 	}
 	password := os.Getenv("MYSQL_PASSWORD")
-	if password == ""  {
+	if password == "" {
 		password = "163453"
 	}
 	host := os.Getenv("MYSQL_HOST")
@@ -56,7 +56,7 @@ func SetMysql() {
 		useMysql = true
 	}
 	// 检查数据库是否存在
-	query:=fmt.Sprintf("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = '%s'",dbName)
+	query := fmt.Sprintf("SELECT SCHEMA_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = '%s'", dbName)
 	rows, err := tempEngine.QueryString(query)
 	if err != nil {
 		log.Printf("查询数据库失败: %v\n", err)
@@ -65,27 +65,27 @@ func SetMysql() {
 	}
 	// 如果数据库不存在，创建它
 	if len(rows) == 0 {
-		create:=fmt.Sprintf("CREATE DATABASE `%s` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'",dbName)
+		create := fmt.Sprintf("CREATE DATABASE `%s` CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'", dbName)
 		_, err = tempEngine.Exec(create)
 		if err != nil {
 			log.Printf("创建数据库失败: %v\n", err)
 			useMysql = false
 			return
 		}
-		log.Printf("成功创建数据库:%s\n" ,dbName)
+		log.Printf("成功创建数据库:%s\n", dbName)
 	}
 	// 关闭临时连接
 	tempEngine.Close()
 	// 连接到 dbName 数据库
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", user, password, host, port,dbName)
+	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", user, password, host, port, dbName)
 	log.Printf("第二次连接数据库的参数%s\n", dataSourceName)
 	engine, err = xorm.NewEngine("mysql", dataSourceName)
 	if err != nil {
-		log.Printf("连接%s数据库失败: %v\n",dbName, err)
+		log.Printf("连接%s数据库失败: %v\n", dbName, err)
 		useMysql = false
 		return
 	}
-	log.Printf("成功连接到数据库:%s\n",dbName)
+	log.Printf("成功连接到数据库:%s\n", dbName)
 }
 
 func GetMysql() *xorm.Engine {
