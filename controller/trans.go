@@ -23,6 +23,7 @@ type ResponseBody struct {
 curl --location --request GET 'http://127.0.0.1:8192/api/v1/GetTrans?src=hello'
 */
 func (ts TranslateController) GetSrc(ctx *gin.Context) {
+	log.Printf("received src: %s", ctx.Query("src"))
 	src := ctx.Query("src")
 	dst, err := logic.Trans(src, "")
 	if err != nil {
@@ -51,6 +52,8 @@ func (ts TranslateController) PostSrcWithProxy(ctx *gin.Context) {
 	if err := ctx.BindJSON(&requestBody); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
+	} else {
+		log.Printf("received src: %s, proxy: %s", requestBody.Src, requestBody.Proxy)
 	}
 	var rep ResponseBody
 	result, err := logic.Trans(requestBody.Src, requestBody.Proxy)
