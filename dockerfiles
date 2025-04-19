@@ -8,6 +8,6 @@ FROM alpine:3.21.3
 COPY --from=build /usr/local/bin/service /usr/local/bin/service
 RUN apk add translate-shell
 EXPOSE 8192
-CMD ["service"]
+ENTRYPOINT ["service"]
 # docker build -t translate-shell-service .
-# docker run -d --name service -p 8192:8192 translate-shell-service
+# docker run --restart=on-failure:5 --name service -p 8192:8192 translate-shell-service

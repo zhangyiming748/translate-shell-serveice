@@ -1,0 +1,15 @@
+name: services
+services:
+    translate-shell:
+        restart: on-failure:5
+        container_name: service
+        ports:
+            - 8192:8192
+        image: zhangyiming748/translate-shell-service:latest
+        environment:
+            - TZ=Asia/Shanghai
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=163453
+            - MYSQL_HOST=192.168.2.10
+            - MYSQL_PORT=3306
+            - MYSQL_DATABASE=translate

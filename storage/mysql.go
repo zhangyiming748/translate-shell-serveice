@@ -32,7 +32,7 @@ func SetMysql() {
 	if port == "" {
 		port = "3306"
 	}
-	dbName := os.Getenv("MYSQL_DBNAME")
+	dbName := os.Getenv("MYSQL_DATABASE")
 	if dbName == "" {
 		dbName = "translate"
 	}
